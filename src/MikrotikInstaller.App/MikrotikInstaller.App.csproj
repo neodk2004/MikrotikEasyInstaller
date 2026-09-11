@@ -17,4 +17,29 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <AssemblyName>MikroTik-Installer</AssemblyName>
+    <AssemblyTitle>MikroTik Installer</AssemblyTitle>
+    <Product>MikroTik Installer</Product>
+    <Company>MikroTik Installer</Company>
+    <Description>Interview-Assistent für die Grundeinrichtung von MikroTik-Geräten.</Description>
+    <Version>1.0.0</Version>
+    <NeutralLanguage>de-DE</NeutralLanguage>
+  </PropertyGroup>
+
+  <!-- Standardwerte für "dotnet publish": eine einzelne, in sich geschlossene .exe ohne separate
+       .NET-Runtime-Installation beim Nutzer. Ohne diese Property-Group müsste jeder Aufruf die
+       Optionen einzeln als -p:... angeben. -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <!-- Debug-Symbole in die exe einbetten statt als separate .pdb-Dateien danebenzulegen —
+         am Ende soll wirklich nur eine einzige Datei zum Weitergeben übrig bleiben. -->
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
 </Project>

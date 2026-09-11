@@ -4,6 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- Eingebettete statt separate .pdb, damit ein Single-File-Publish der App wirklich bei
+         einer einzigen Datei bleibt. -->
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
