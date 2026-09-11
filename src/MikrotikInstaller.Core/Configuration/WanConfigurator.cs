@@ -47,4 +47,18 @@ public static class WanConfigurator
 
         return actions;
     }
+
+    /// <summary>Kurze, laientaugliche Zusammenfassung für den Zusammenfassungs-Schritt (keine RouterOS-Fachbegriffe).</summary>
+    public static IReadOnlyList<string> BuildFriendlySummary(WanSettings settings)
+    {
+        var addressLine = settings.Mode == WanAddressMode.Dhcp
+            ? $"Die Internetadresse wird automatisch von deinem Anbieter bezogen (Anschluss „{settings.InterfaceName}\")."
+            : $"Feste Internetadresse {settings.StaticAddressCidr} über den Anschluss „{settings.InterfaceName}\".";
+
+        return
+        [
+            addressLine,
+            "Alle Geräte in deinem Heimnetz können darüber ins Internet.",
+        ];
+    }
 }

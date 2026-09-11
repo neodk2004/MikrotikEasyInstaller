@@ -71,6 +71,7 @@ public partial class WanStepViewModel : WizardStepViewModelBase
         if (!CanGoNext)
         {
             _session.WanActions = null;
+            _session.WanSettings = null;
             return;
         }
 
@@ -78,6 +79,7 @@ public partial class WanStepViewModel : WizardStepViewModelBase
             ? new WanSettings(SelectedInterface!, WanAddressMode.Static, StaticAddress, StaticGateway)
             : new WanSettings(SelectedInterface!, WanAddressMode.Dhcp);
 
+        _session.WanSettings = settings;
         _session.WanActions = WanConfigurator.BuildActions(settings);
     }
 }

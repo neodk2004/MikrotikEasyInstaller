@@ -6,40 +6,58 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignWidth="600">
-        <StackPanel Margin="0,16,0,0">
-            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
+    <StackPanel Margin="0,16,0,0">
+        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
 
-            <StackPanel Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,0,20">
-                <TextBlock Text="Fertig! Dein Gerät wurde erfolgreich eingerichtet." FontWeight="SemiBold" Foreground="{StaticResource MikrotikAccentBrush}" Margin="0,0,0,8" />
-                <TextBlock TextWrapping="Wrap">
-                    <Run Text="Ein Backup deines vorherigen Zustands liegt auf dem Gerät unter dem Namen „" />
-                    <Run Text="{Binding BackupName}" FontWeight="SemiBold" />
-                    <Run Text="“." />
-                </TextBlock>
-            </StackPanel>
+        <StackPanel Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,0,20">
+            <TextBlock Text="Fertig! Dein Gerät wurde erfolgreich eingerichtet." FontWeight="SemiBold" Foreground="{StaticResource MikrotikAccentBrush}" Margin="0,0,0,8" />
+            <TextBlock TextWrapping="Wrap" Opacity="0.8">
+                <Run Text="Falls doch mal etwas nicht passt: Auf deinem Gerät liegt unter dem Namen „" />
+                <Run Text="{Binding BackupName}" FontWeight="SemiBold" />
+                <Run Text="“ eine Sicherung deines vorherigen Zustands." />
+            </TextBlock>
+        </StackPanel>
 
-            <TextBlock Text="Geplante Änderungen" FontWeight="SemiBold" Margin="0,0,0,8"
-                       Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}" />
+        <StackPanel Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+            <TextBlock Text="Das richten wir für dich ein" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12" />
 
-            <ItemsControl ItemsSource="{Binding PlannedChanges}" Margin="0,0,0,20">
+            <ItemsControl ItemsSource="{Binding Sections}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="0,0,0,6" />
+                        <ui:CardExpander IsExpanded="True" Margin="0,0,0,10">
+                            <ui:CardExpander.Icon>
+                                <ui:SymbolIcon Symbol="{Binding Icon}" Foreground="{StaticResource MikrotikAccentBrush}" />
+                            </ui:CardExpander.Icon>
+                            <ui:CardExpander.Header>
+                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" Margin="8,0,0,0" VerticalAlignment="Center" />
+                            </ui:CardExpander.Header>
+                            <ItemsControl ItemsSource="{Binding Lines}" Margin="8,10,8,10">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6" VerticalAlignment="Top">
+                                            <Border Width="5" Height="5" CornerRadius="2.5" Background="{StaticResource MikrotikAccentBrush}"
+                                                    Margin="0,7,10,0" VerticalAlignment="Top" />
+                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ui:CardExpander>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <ui:Button Content="Jetzt einrichten" Appearance="Primary" HorizontalAlignment="Left"
-                       Command="{Binding ApplyCommand}"
-                       Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}" />
-
-            <StackPanel Orientation="Horizontal" Margin="0,16,0,0"
-                        Visibility="{Binding IsApplying, Converter={StaticResource BoolToVisibilityConverter}}">
-                <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,12,0" />
-                <TextBlock Text="{Binding ProgressText}" VerticalAlignment="Center" TextWrapping="Wrap" />
-            </StackPanel>
-
-            <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{StaticResource MikrotikRedBrush}" Margin="0,16,0,0"
-                       Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+            <ui:Button Content="Jetzt einrichten" Appearance="Primary" HorizontalAlignment="Left" Margin="0,8,0,0"
+                       Command="{Binding ApplyCommand}" />
         </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,16,0,0"
+                    Visibility="{Binding IsApplying, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,12,0" />
+            <TextBlock Text="{Binding ProgressText}" VerticalAlignment="Center" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{StaticResource MikrotikRedBrush}" Margin="0,16,0,0"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+    </StackPanel>
 </UserControl>

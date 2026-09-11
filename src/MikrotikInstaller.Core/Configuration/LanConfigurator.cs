@@ -81,4 +81,17 @@ public static class LanConfigurator
 
         return actions;
     }
+
+    /// <summary>Kurze, laientaugliche Zusammenfassung für den Zusammenfassungs-Schritt (keine RouterOS-Fachbegriffe).</summary>
+    public static IReadOnlyList<string> BuildFriendlySummary(LanSettings settings)
+    {
+        var networkCidr = IpNetworkHelper.GetNetworkCidr(settings.RouterAddressCidr);
+        var members = string.Join(", ", settings.MemberInterfaces.Select(name => $"„{name}\""));
+
+        return
+        [
+            $"Geräte in deinem Heimnetz ({networkCidr}) bekommen automatisch eine Adresse.",
+            $"Angeschlossen sind: {members}.",
+        ];
+    }
 }

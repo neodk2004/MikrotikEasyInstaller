@@ -46,4 +46,13 @@ public class LanConfiguratorTests
         Assert.Contains(client.ExecuteCalls, c => c.Path == "/ip/dns/set"
             && c.Parameters!["servers"] == "1.1.1.1,8.8.8.8" && c.Parameters["allow-remote-requests"] == "yes");
     }
+
+    [Fact]
+    public void BuildFriendlySummary_MentionsNetworkAndMemberInterfaces()
+    {
+        var summary = LanConfigurator.BuildFriendlySummary(DefaultSettings());
+
+        Assert.Contains(summary, line => line.Contains("192.168.88.0/24"));
+        Assert.Contains(summary, line => line.Contains("ether2") && line.Contains("ether3"));
+    }
 }

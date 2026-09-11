@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MikrotikInstaller.Core.Backup;
 using MikrotikInstaller.Core.Configuration;
 using MikrotikInstaller.Core.Connectivity;
+using Wpf.Ui.Controls;
 
 namespace MikrotikInstaller.App.ViewModels.Steps;
 
@@ -24,7 +25,7 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
         _session = session;
     }
 
-    public ObservableCollection<string> PlannedChanges { get; } = [];
+    public ObservableCollection<SummarySection> Sections { get; } = [];
 
     [ObservableProperty]
     private bool _isApplying;
@@ -43,10 +44,31 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
 
     public override Task OnActivatedAsync()
     {
-        PlannedChanges.Clear();
-        foreach (var action in GetAllActions())
+        Sections.Clear();
+
+        if (_session.WanSettings is { } wan)
         {
-            PlannedChanges.Add(action.Description);
+            Sections.Add(new SummarySection("Internet-Zugang", SymbolRegular.Globe24, WanConfigurator.BuildFriendlySummary(wan)));
+        }
+
+        if (_session.LanSettings is { } lan)
+        {
+            Sections.Add(new SummarySection("Heimnetzwerk", SymbolRegular.Home24, LanConfigurator.BuildFriendlySummary(lan)));
+        }
+
+        if (_session.VlanDefinitions is { Count: > 0 } vlans)
+        {
+            Sections.Add(new SummarySection("Zusätzliche Netzwerke", SymbolRegular.HomeSplit24, VlanConfigurator.BuildFriendlySummary(vlans)));
+        }
+
+        if (_session.WirelessSettings is { } wireless)
+        {
+            Sections.Add(new SummarySection("WLAN", SymbolRegular.Wifi124, WirelessConfigurator.BuildFriendlySummary(wireless)));
+        }
+
+        if (_session.FirewallSettings is { } firewall)
+        {
+            Sections.Add(new SummarySection("Firewall", SymbolRegular.ShieldCheckmark24, FirewallConfigurator.BuildFriendlySummary(firewall)));
         }
 
         IsFinished = false;
@@ -55,7 +77,7 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
         return Task.CompletedTask;
     }
 
-    private bool CanApply => !IsApplying && !IsFinished && _session.Client is not null && PlannedChanges.Count > 0;
+    private bool CanApply => !IsApplying && !IsFinished && _session.Client is not null && Sections.Count > 0;
 
     [RelayCommand(CanExecute = nameof(CanApply))]
     private async Task ApplyAsync()

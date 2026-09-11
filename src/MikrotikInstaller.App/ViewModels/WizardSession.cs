@@ -31,6 +31,19 @@ public sealed class WizardSession
 
     public IReadOnlyList<ConfigurationAction>? FirewallActions { get; set; }
 
+    // Die rohen Eingaben je Schritt, damit der Zusammenfassungs-Schritt daraus eine
+    // laientaugliche Klartext-Vorschau bauen kann (getrennt von den technischen
+    // ConfigurationAction-Beschreibungen, die beim Anwenden als Fortschrittstext dienen).
+    public WanSettings? WanSettings { get; set; }
+
+    public LanSettings? LanSettings { get; set; }
+
+    public IReadOnlyList<VlanDefinition>? VlanDefinitions { get; set; }
+
+    public WirelessSettings? WirelessSettings { get; set; }
+
+    public FirewallSettings? FirewallSettings { get; set; }
+
     public async Task DisposeClientAsync()
     {
         if (Client is not null)

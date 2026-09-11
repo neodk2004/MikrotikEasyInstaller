@@ -65,9 +65,12 @@ public partial class WlanStepViewModel : WizardStepViewModelBase
         if (!CanGoNext)
         {
             _session.WirelessActions = null;
+            _session.WirelessSettings = null;
             return;
         }
 
-        _session.WirelessActions = WirelessConfigurator.BuildActions(new WirelessSettings(SelectedInterface!, Ssid, Password));
+        var settings = new WirelessSettings(SelectedInterface!, Ssid, Password);
+        _session.WirelessSettings = settings;
+        _session.WirelessActions = WirelessConfigurator.BuildActions(settings);
     }
 }

@@ -45,4 +45,14 @@ public class WanConfiguratorTests
         Assert.Contains(client.AddCalls, c => c.Path == "/ip/firewall/nat"
             && c.Parameters["action"] == "masquerade" && c.Parameters["out-interface"] == "ether1");
     }
+
+    [Fact]
+    public void BuildFriendlySummary_ContainsNoRouterOsJargon()
+    {
+        var summary = WanConfigurator.BuildFriendlySummary(new WanSettings("ether1", WanAddressMode.Dhcp));
+
+        Assert.All(summary, line => Assert.DoesNotContain("NAT", line));
+        Assert.All(summary, line => Assert.DoesNotContain("DHCP-Client", line));
+        Assert.Contains(summary, line => line.Contains("ether1"));
+    }
 }

@@ -65,4 +65,10 @@ public static class VlanConfigurator
 
         return actions;
     }
+
+    /// <summary>Kurze, laientaugliche Zusammenfassung für den Zusammenfassungs-Schritt (keine RouterOS-Fachbegriffe).</summary>
+    public static IReadOnlyList<string> BuildFriendlySummary(IReadOnlyList<VlanDefinition> vlans) =>
+        vlans
+            .Select(vlan => $"„{vlan.Name}\" — ein eigenes, getrenntes Netzwerk ({IpNetworkHelper.GetNetworkCidr(vlan.RouterAddressCidr)}).")
+            .ToList();
 }

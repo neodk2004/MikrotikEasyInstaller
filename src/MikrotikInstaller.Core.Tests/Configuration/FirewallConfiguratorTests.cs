@@ -46,4 +46,23 @@ public class FirewallConfiguratorTests
 
         Assert.True(allowIndex >= 0 && dropIndex >= 0 && allowIndex < dropIndex);
     }
+
+    [Fact]
+    public void BuildFriendlySummary_WithoutPortForwards_OnlyMentionsProtection()
+    {
+        var summary = FirewallConfigurator.BuildFriendlySummary(new FirewallSettings("ether1", "bridge-lan", []));
+
+        Assert.Single(summary);
+    }
+
+    [Fact]
+    public void BuildFriendlySummary_WithPortForwards_MentionsThem()
+    {
+        var settings = new FirewallSettings("ether1", "bridge-lan",
+            [new PortForward("Spieleserver", "udp", 25565, "192.168.88.50", 25565)]);
+
+        var summary = FirewallConfigurator.BuildFriendlySummary(settings);
+
+        Assert.Contains(summary, line => line.Contains("Spieleserver") && line.Contains("25565"));
+    }
 }

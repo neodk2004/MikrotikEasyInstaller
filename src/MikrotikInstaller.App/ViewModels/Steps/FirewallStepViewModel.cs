@@ -61,6 +61,7 @@ public partial class FirewallStepViewModel : WizardStepViewModelBase
         if (!CanGoNext || _session.WanInterfaceName is null || _session.LanBridgeName is null)
         {
             _session.FirewallActions = null;
+            _session.FirewallSettings = null;
             return;
         }
 
@@ -69,6 +70,7 @@ public partial class FirewallStepViewModel : WizardStepViewModelBase
             .ToList();
 
         var settings = new FirewallSettings(_session.WanInterfaceName, _session.LanBridgeName, forwards);
+        _session.FirewallSettings = settings;
         _session.FirewallActions = FirewallConfigurator.BuildActions(settings);
     }
 }

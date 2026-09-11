@@ -70,6 +70,23 @@ public static class FirewallConfigurator
         return actions;
     }
 
+    /// <summary>Kurze, laientaugliche Zusammenfassung für den Zusammenfassungs-Schritt (keine RouterOS-Fachbegriffe).</summary>
+    public static IReadOnlyList<string> BuildFriendlySummary(FirewallSettings settings)
+    {
+        var lines = new List<string>
+        {
+            "Dein Router ist aus dem Internet nicht direkt erreichbar — dein Heimnetz ist geschützt.",
+        };
+
+        if (settings.PortForwards.Count > 0)
+        {
+            var forwards = string.Join(", ", settings.PortForwards.Select(p => $"{p.Name} (Port {p.ExternalPort})"));
+            lines.Add($"Trotzdem gezielt von außen erreichbar: {forwards}.");
+        }
+
+        return lines;
+    }
+
     private static ConfigurationAction InputRule(string description, Dictionary<string, string> parameters) =>
         ChainRule("input", description, parameters);
 

@@ -33,4 +33,20 @@ public class VlanConfiguratorTests
         var actions = VlanConfigurator.BuildActions("bridge-lan", []);
         Assert.Empty(actions);
     }
+
+    [Fact]
+    public void BuildFriendlySummary_OneLinePerVlan()
+    {
+        var vlans = new List<VlanDefinition>
+        {
+            new(20, "Gäste", "192.168.20.1/24", "192.168.20.10", "192.168.20.254"),
+            new(30, "IoT", "192.168.30.1/24", "192.168.30.10", "192.168.30.254"),
+        };
+
+        var summary = VlanConfigurator.BuildFriendlySummary(vlans);
+
+        Assert.Equal(2, summary.Count);
+        Assert.Contains(summary, line => line.Contains("Gäste"));
+        Assert.Contains(summary, line => line.Contains("IoT"));
+    }
 }

@@ -90,6 +90,7 @@ public partial class LanStepViewModel : WizardStepViewModelBase
         if (!CanGoNext)
         {
             _session.LanActions = null;
+            _session.LanSettings = null;
             _session.LanBridgeName = null;
             return;
         }
@@ -105,6 +106,7 @@ public partial class LanStepViewModel : WizardStepViewModelBase
             PrimaryDns,
             string.IsNullOrWhiteSpace(SecondaryDns) ? null : SecondaryDns);
 
+        _session.LanSettings = settings;
         _session.LanActions = LanConfigurator.BuildActions(settings);
     }
 }

@@ -71,6 +71,7 @@ public partial class VlanStepViewModel : WizardStepViewModelBase
         if (!CanGoNext || _session.LanBridgeName is null)
         {
             _session.VlanActions = null;
+            _session.VlanDefinitions = null;
             return;
         }
 
@@ -78,6 +79,7 @@ public partial class VlanStepViewModel : WizardStepViewModelBase
             .Select(v => new VlanDefinition(int.Parse(v.VlanId), v.Name, $"{v.RouterAddress}/24", v.PoolStart, v.PoolEnd))
             .ToList();
 
+        _session.VlanDefinitions = definitions;
         _session.VlanActions = VlanConfigurator.BuildActions(_session.LanBridgeName, definitions);
     }
 }

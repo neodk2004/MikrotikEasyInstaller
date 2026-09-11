@@ -32,4 +32,8 @@ public static class WirelessConfigurator
                 }, ct)),
         ];
     }
+
+    /// <summary>Kurze, laientaugliche Zusammenfassung für den Zusammenfassungs-Schritt (keine RouterOS-Fachbegriffe).</summary>
+    public static IReadOnlyList<string> BuildFriendlySummary(WirelessSettings settings) =>
+        [$"WLAN „{settings.Ssid}\" ist eingerichtet und mit einem Passwort geschützt."];
 }
