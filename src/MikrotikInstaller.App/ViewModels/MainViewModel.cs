@@ -24,6 +24,11 @@ public partial class MainViewModel : ObservableObject
             new PlaceholderStepViewModel("Zusammenfassung", "Alle geplanten Änderungen im Überblick, bevor etwas angewendet wird."),
         ];
 
+        foreach (var step in Steps)
+        {
+            step.PropertyChanged += (_, _) => GoNextCommand.NotifyCanExecuteChanged();
+        }
+
         CurrentStepIndex = 0;
     }
 

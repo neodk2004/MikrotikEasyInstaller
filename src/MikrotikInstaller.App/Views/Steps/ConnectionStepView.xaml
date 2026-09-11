@@ -10,14 +10,33 @@
         <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,24" Opacity="0.8" />
 
         <TextBlock Text="Adresse des Geräts (IP oder Hostname)" Margin="0,0,0,4" />
-        <ui:TextBox PlaceholderText="z. B. 192.168.88.1" Margin="0,0,0,16" />
+        <ui:TextBox Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}"
+                    PlaceholderText="z. B. 192.168.88.1" Margin="0,0,0,16" />
 
         <TextBlock Text="Benutzername" Margin="0,0,0,4" />
-        <ui:TextBox PlaceholderText="admin" Margin="0,0,0,16" />
+        <ui:TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                    PlaceholderText="admin" Margin="0,0,0,16" />
 
         <TextBlock Text="Passwort" Margin="0,0,0,4" />
-        <ui:PasswordBox Margin="0,0,0,16" />
+        <ui:PasswordBox Password="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
 
-        <ui:Button Content="Verbindung testen" Appearance="Secondary" HorizontalAlignment="Left" />
+        <CheckBox Content="Verschlüsselte Verbindung verwenden (nur wenn auf dem Gerät eingerichtet)"
+                  IsChecked="{Binding UseEncryption}" Margin="0,0,0,20" />
+
+        <ui:Button Content="Verbindung testen" Appearance="Secondary" HorizontalAlignment="Left"
+                   Command="{Binding TestConnectionCommand}" />
+
+        <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap" Margin="0,16,0,0">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="Green" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding StatusIsError}" Value="True">
+                            <Setter Property="Foreground" Value="Red" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </StackPanel>
 </UserControl>
