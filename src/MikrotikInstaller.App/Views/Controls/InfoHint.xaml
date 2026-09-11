@@ -5,10 +5,16 @@
              x:Name="Root"
              VerticalAlignment="Center"
              Margin="5,0,0,0">
+    <!-- ToolTip-Inhalte hängen nicht im normalen visuellen Baum der Seite, daher funktioniert eine
+         einfache ElementName-Bindung darin nicht. Der Umweg über Tag + PlacementTarget ist das dafür
+         vorgesehene WPF-Muster. -->
     <ui:SymbolIcon Symbol="QuestionCircle16" FontSize="14" Opacity="0.55" Cursor="Help"
+                   Tag="{Binding Text, ElementName=Root}"
                    ToolTipService.InitialShowDelay="200" ToolTipService.ShowDuration="60000">
         <ui:SymbolIcon.ToolTip>
-            <ToolTip Content="{Binding Text, ElementName=Root}" MaxWidth="280" />
+            <ToolTip MaxWidth="280">
+                <TextBlock Text="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ToolTip}}" TextWrapping="Wrap" />
+            </ToolTip>
         </ui:SymbolIcon.ToolTip>
     </ui:SymbolIcon>
 </UserControl>
