@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MikrotikInstaller.Core.Backup;
 using MikrotikInstaller.Core.Configuration;
 using MikrotikInstaller.Core.Connectivity;
+using MikrotikInstaller.Core.Export;
 using Wpf.Ui.Controls;
 
 namespace MikrotikInstaller.App.ViewModels.Steps;
@@ -42,6 +43,12 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
     [ObservableProperty]
     private string? _backupName;
 
+    [ObservableProperty]
+    private string? _pdfExportMessage;
+
+    [ObservableProperty]
+    private bool _pdfExportIsError;
+
     public override Task OnActivatedAsync()
     {
         Sections.Clear();
@@ -73,7 +80,9 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
 
         IsFinished = false;
         ErrorMessage = null;
+        PdfExportMessage = null;
         ApplyCommand.NotifyCanExecuteChanged();
+        ExportPdfCommand.NotifyCanExecuteChanged();
         return Task.CompletedTask;
     }
 
@@ -116,6 +125,47 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
         {
             IsApplying = false;
             ApplyCommand.NotifyCanExecuteChanged();
+        }
+    }
+
+    private bool CanExportPdf => Sections.Count > 0;
+
+    [RelayCommand(CanExecute = nameof(CanExportPdf))]
+    private void ExportPdf()
+    {
+        var dialog = new Microsoft.Win32.SaveFileDialog
+        {
+            Title = "Einrichtungsprotokoll speichern",
+            Filter = "PDF-Datei (*.pdf)|*.pdf",
+            FileName = $"MikroTik-Einrichtung-{DateTime.Now:yyyy-MM-dd}.pdf",
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        try
+        {
+            var data = new SummaryDocumentData(
+                _session.Device?.IdentityName ?? "MikroTik",
+                _session.Device?.BoardModel ?? "unbekannt",
+                _session.WanSettings,
+                _session.LanSettings,
+                _session.VlanDefinitions ?? [],
+                _session.WirelessSettings,
+                _session.FirewallSettings,
+                BackupName);
+
+            SummaryPdfExporter.Export(data, dialog.FileName);
+
+            PdfExportIsError = false;
+            PdfExportMessage = $"Gespeichert unter „{dialog.FileName}\".";
+        }
+        catch (Exception ex)
+        {
+            PdfExportIsError = true;
+            PdfExportMessage = $"PDF konnte nicht erstellt werden: {ex.Message}";
         }
     }
 

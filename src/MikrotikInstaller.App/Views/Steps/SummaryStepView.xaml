@@ -47,9 +47,17 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <ui:Button Content="Jetzt einrichten" Appearance="Primary" HorizontalAlignment="Left" Margin="0,8,0,0"
-                       Command="{Binding ApplyCommand}" />
+            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                <ui:Button Content="Jetzt einrichten" Appearance="Primary" Margin="0,0,8,0"
+                           Command="{Binding ApplyCommand}" />
+                <ui:Button Content="Als PDF speichern" Appearance="Secondary"
+                           Command="{Binding ExportPdfCommand}" />
+            </StackPanel>
         </StackPanel>
+
+        <ui:Button Content="Als PDF speichern" Appearance="Secondary" HorizontalAlignment="Left" Margin="0,0,0,0"
+                   Command="{Binding ExportPdfCommand}"
+                   Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}" />
 
         <StackPanel Orientation="Horizontal" Margin="0,16,0,0"
                     Visibility="{Binding IsApplying, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -59,5 +67,19 @@
 
         <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{StaticResource MikrotikRedBrush}" Margin="0,16,0,0"
                    Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+
+        <TextBlock Text="{Binding PdfExportMessage}" TextWrapping="Wrap" Margin="0,10,0,0"
+                   Visibility="{Binding PdfExportMessage, Converter={StaticResource StringToVisibilityConverter}}">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{StaticResource MikrotikAccentBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PdfExportIsError}" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource MikrotikRedBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </StackPanel>
 </UserControl>
