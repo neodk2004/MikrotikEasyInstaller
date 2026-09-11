@@ -24,6 +24,7 @@ public partial class MainViewModel : ObservableObject
             new WlanStepViewModel(_session),
             new FirewallStepViewModel(_session),
             new SummaryStepViewModel(_session),
+            new UpdateStepViewModel(_session),
         ];
 
         foreach (var step in Steps)

@@ -1,6 +1,7 @@
 using MikrotikInstaller.Core.Configuration;
 using MikrotikInstaller.Core.Connectivity;
 using MikrotikInstaller.Core.Devices;
+using MikrotikInstaller.Core.Updates;
 
 namespace MikrotikInstaller.App.ViewModels;
 
@@ -43,6 +44,12 @@ public sealed class WizardSession
     public WirelessSettings? WirelessSettings { get; set; }
 
     public FirewallSettings? FirewallSettings { get; set; }
+
+    /// <summary>
+    /// Ergebnis der letzten Update-Prüfung. Wird zuerst in der Geräte-Erkennung versucht (funktioniert
+    /// nur, wenn das Gerät schon Internetzugang hat) und nach erfolgreichem Anwenden erneut versucht.
+    /// </summary>
+    public RouterOsUpdateInfo? UpdateInfo { get; set; }
 
     public async Task DisposeClientAsync()
     {

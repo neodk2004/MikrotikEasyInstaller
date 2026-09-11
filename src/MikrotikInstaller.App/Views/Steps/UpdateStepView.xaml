@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="MikrotikInstaller.App.Views.Steps.UpdateStepView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="600">
+    <StackPanel Margin="0,16,0,0">
+        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
+
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsChecking, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,12,0" />
+            <TextBlock Text="Es wird geprüft, ob ein Update verfügbar ist …" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Visibility="{Binding ShowCheckFailed, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock TextWrapping="Wrap" Opacity="0.8" Margin="0,0,0,12">
+                Es konnte nicht geprüft werden, ob ein Update verfügbar ist. Das liegt meist daran, dass dein Gerät (noch) keinen Internetzugang hat.
+            </TextBlock>
+            <ui:Button Content="Erneut prüfen" Appearance="Secondary" HorizontalAlignment="Left"
+                       Command="{Binding RecheckCommand}" />
+        </StackPanel>
+
+        <StackPanel Visibility="{Binding ShowUpToDate, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Foreground="{StaticResource MikrotikAccentBrush}">
+                <Run Text="Dein Gerät ist bereits auf dem neuesten Stand (Version" />
+                <Run Text="{Binding InstalledVersion, Mode=OneWay}" />
+                <Run Text=")." />
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel Visibility="{Binding ShowUpdateAvailable, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock TextWrapping="Wrap" Margin="0,0,0,16">
+                <Run Text="Eine neuere Version ist verfügbar: " FontWeight="SemiBold" />
+                <Run Text="{Binding InstalledVersion, Mode=OneWay}" />
+                <Run Text=" → " />
+                <Run Text="{Binding LatestVersion, Mode=OneWay}" FontWeight="SemiBold" Foreground="{StaticResource MikrotikAccentBrush}" />
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap" Margin="0,0,0,16" Opacity="0.85">
+                Beim Update startet dein Gerät automatisch neu. Das dauert normalerweise ein bis zwei Minuten, in denen dein Netzwerk kurz nicht erreichbar ist. In seltenen Fällen (z. B. Stromausfall während des Updates) kann ein Update fehlschlagen.
+            </TextBlock>
+
+            <CheckBox Content="Ich bin mir bewusst, dass mein Gerät dabei neu startet" IsChecked="{Binding ConfirmReboot}" Margin="0,0,0,16" />
+
+            <ui:Button Content="Jetzt aktualisieren" Appearance="Primary" HorizontalAlignment="Left"
+                       Command="{Binding StartUpdateCommand}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,16,0,0" Visibility="{Binding IsUpdating, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ui:ProgressRing IsIndeterminate="True" Width="20" Height="20" Margin="0,0,12,0" />
+            <TextBlock Text="Update wird gestartet …" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <StackPanel Visibility="{Binding IsUpdateStarted, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Foreground="{StaticResource MikrotikAccentBrush}" Margin="0,0,0,8">
+                Das Update wurde gestartet.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Opacity="0.85">
+                Dein Gerät lädt die neue Version herunter und startet danach automatisch neu. Das dauert normalerweise ein bis zwei Minuten.
+            </TextBlock>
+        </StackPanel>
+
+        <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{StaticResource MikrotikRedBrush}" Margin="0,16,0,0"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+    </StackPanel>
+</UserControl>

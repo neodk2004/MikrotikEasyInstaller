@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MikrotikInstaller.Core.Connectivity;
 using MikrotikInstaller.Core.Devices;
+using MikrotikInstaller.Core.Updates;
 
 namespace MikrotikInstaller.App.ViewModels.Steps;
 
@@ -59,6 +60,11 @@ public partial class DeviceOverviewStepViewModel : WizardStepViewModelBase
             var device = await DeviceDiscoveryService.DiscoverAsync(_session.Client);
             Device = device;
             _session.Device = device;
+
+            // Läuft im Hintergrund weiter, ohne die Navigation zu blockieren — ein frisches Gerät
+            // hat an dieser Stelle im Assistenten meist noch keinen Internetzugang, die Prüfung
+            // schlägt dann einfach fehl (kein Fehlerzustand) und wird nach dem Anwenden wiederholt.
+            _ = CheckForUpdatesInBackgroundAsync(_session.Client);
         }
         catch (RouterOsException ex)
         {
@@ -69,5 +75,10 @@ public partial class DeviceOverviewStepViewModel : WizardStepViewModelBase
         {
             IsLoading = false;
         }
+    }
+
+    private async Task CheckForUpdatesInBackgroundAsync(IRouterOsClient client)
+    {
+        _session.UpdateInfo = await RouterOsUpdateService.CheckForUpdatesAsync(client);
     }
 }

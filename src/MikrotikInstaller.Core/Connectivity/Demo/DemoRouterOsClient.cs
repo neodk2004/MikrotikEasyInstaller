@@ -91,5 +91,9 @@ public sealed class DemoRouterOsClient : IRouterOsClient
             new() { [".id"] = "*3", ["name"] = "ether3", ["type"] = "ether", ["running"] = "false", ["disabled"] = "false" },
             new() { [".id"] = "*4", ["name"] = "wlan1", ["type"] = "wlan", ["running"] = "false", ["disabled"] = "true" },
         ],
+        ["/system/package/update"] =
+        [
+            new() { ["installed-version"] = "7.15.2", ["latest-version"] = "7.16.1", ["status"] = "New version is available" },
+        ],
     };
 }

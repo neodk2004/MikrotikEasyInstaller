@@ -5,6 +5,7 @@ using MikrotikInstaller.Core.Backup;
 using MikrotikInstaller.Core.Configuration;
 using MikrotikInstaller.Core.Connectivity;
 using MikrotikInstaller.Core.Export;
+using MikrotikInstaller.Core.Updates;
 using Wpf.Ui.Controls;
 
 namespace MikrotikInstaller.App.ViewModels.Steps;
@@ -38,7 +39,10 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
     private string? _errorMessage;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanGoNext))]
     private bool _isFinished;
+
+    public override bool CanGoNext => IsFinished;
 
     [ObservableProperty]
     private string? _backupName;
@@ -114,6 +118,10 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
 
             ProgressText = null;
             IsFinished = true;
+
+            // Jetzt sollte Internet stehen (falls WAN eingerichtet wurde) — Update-Prüfung für den
+            // folgenden Schritt im Hintergrund wiederholen, blockiert den Abschluss hier nicht.
+            _ = RecheckUpdatesInBackgroundAsync(_session.Client);
         }
         catch (RouterOsException ex)
         {
@@ -167,6 +175,11 @@ public partial class SummaryStepViewModel : WizardStepViewModelBase
             PdfExportIsError = true;
             PdfExportMessage = $"PDF konnte nicht erstellt werden: {ex.Message}";
         }
+    }
+
+    private async Task RecheckUpdatesInBackgroundAsync(IRouterOsClient client)
+    {
+        _session.UpdateInfo = await RouterOsUpdateService.CheckForUpdatesAsync(client);
     }
 
     private IReadOnlyList<ConfigurationAction> GetAllActions() =>
