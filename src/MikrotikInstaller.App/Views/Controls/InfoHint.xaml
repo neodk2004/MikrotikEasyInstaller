@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="MikrotikInstaller.App.Views.Controls.InfoHint"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             x:Name="Root"
+             VerticalAlignment="Center"
+             Margin="5,0,0,0">
+    <ui:SymbolIcon Symbol="QuestionCircle16" FontSize="14" Opacity="0.55" Cursor="Help"
+                   ToolTipService.InitialShowDelay="200" ToolTipService.ShowDuration="60000">
+        <ui:SymbolIcon.ToolTip>
+            <ToolTip Content="{Binding Text, ElementName=Root}" MaxWidth="280" />
+        </ui:SymbolIcon.ToolTip>
+    </ui:SymbolIcon>
+</UserControl>

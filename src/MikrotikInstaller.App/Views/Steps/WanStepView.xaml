@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:MikrotikInstaller.App.Views.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -9,18 +10,29 @@
     <StackPanel Margin="0,16,0,0">
         <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,24" Opacity="0.8" />
 
-        <TextBlock Text="Internet-Schnittstelle" Margin="0,0,0,4" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+            <TextBlock Text="Internet-Schnittstelle" />
+            <controls:InfoHint Text="Der Anschluss deines Routers, an dem das Kabel von deinem Modem oder deiner Glasfaserdose angeschlossen ist." />
+        </StackPanel>
         <ComboBox ItemsSource="{Binding AvailableInterfaces}" SelectedItem="{Binding SelectedInterface}"
                   Margin="0,0,0,20" HorizontalAlignment="Left" MinWidth="220" />
 
-        <CheckBox Content="Feste IP-Adresse statt automatischem Bezug (DHCP) verwenden"
-                  IsChecked="{Binding UseStaticAddress}" Margin="0,0,0,16" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <CheckBox Content="Feste IP-Adresse statt automatischem Bezug (DHCP) verwenden" IsChecked="{Binding UseStaticAddress}" />
+            <controls:InfoHint Text="DHCP verteilt die Internetadresse automatisch – die übliche und einfachste Einstellung. Nur aktivieren, wenn dir dein Anbieter ausdrücklich eine feste (unveränderliche) IP-Adresse vorgegeben hat." />
+        </StackPanel>
 
         <StackPanel Visibility="{Binding UseStaticAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-            <TextBlock Text="Feste IP-Adresse (mit Präfix, z. B. 203.0.113.5/24)" Margin="0,0,0,4" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <TextBlock Text="Feste IP-Adresse (mit Präfix, z. B. 203.0.113.5/24)" />
+                <controls:InfoHint Text="Die genaue Adresse, die dir dein Internetanbieter zugewiesen hat. Die Zahl nach dem Schrägstrich (Präfix) gibt die Größe des Netzwerks an – steht in den Unterlagen deines Anbieters." />
+            </StackPanel>
             <ui:TextBox Text="{Binding StaticAddress, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
 
-            <TextBlock Text="Gateway (Adresse deines Internetanbieters)" Margin="0,0,0,4" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <TextBlock Text="Gateway (Adresse deines Internetanbieters)" />
+                <controls:InfoHint Text="Die Adresse des Geräts deines Anbieters, über das dein Router ins Internet gelangt – ebenfalls von deinem Anbieter vorgegeben." />
+            </StackPanel>
             <ui:TextBox Text="{Binding StaticGateway, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
         </StackPanel>
     </StackPanel>

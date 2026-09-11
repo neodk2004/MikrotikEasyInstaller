@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:MikrotikInstaller.App.Views.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -18,7 +19,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="12" />
-                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="120" />
                                         <ColumnDefinition Width="12" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -27,7 +28,10 @@
                                         <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="2">
-                                        <TextBlock Text="VLAN-ID" Margin="0,0,0,4" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="VLAN-ID" />
+                                            <controls:InfoHint Text="Eine Nummer, die dieses Netzwerk eindeutig kennzeichnet (2–4094). Jede Nummer darf nur einmal vergeben werden." />
+                                        </StackPanel>
                                         <ui:TextBox Text="{Binding VlanId, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                     <ui:Button Grid.Column="4" Content="Entfernen" Appearance="Secondary" VerticalAlignment="Bottom"
@@ -44,7 +48,10 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0">
-                                        <TextBlock Text="Router-Adresse" Margin="0,0,0,4" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="Router-Adresse" />
+                                            <controls:InfoHint Text="Die Adresse, unter der dein Router in diesem zusätzlichen Netzwerk erreichbar ist." />
+                                        </StackPanel>
                                         <ui:TextBox Text="{Binding RouterAddress, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="2">

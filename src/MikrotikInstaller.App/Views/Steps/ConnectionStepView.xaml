@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:MikrotikInstaller.App.Views.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -9,7 +10,10 @@
     <StackPanel Margin="0,16,0,0">
         <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,24" Opacity="0.8" />
 
-        <TextBlock Text="Adresse des Geräts (IP oder Hostname)" Margin="0,0,0,4" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+            <TextBlock Text="Adresse des Geräts (IP oder Hostname)" />
+            <controls:InfoHint Text="Die Adresse, unter der dein Router in deinem Netzwerk erreichbar ist – meist etwas wie 192.168.88.1. Steht z. B. auf dem Gerät oder in der Anleitung deines Routers." />
+        </StackPanel>
         <ui:TextBox Text="{Binding Host, UpdateSourceTrigger=PropertyChanged}"
                     PlaceholderText="z. B. 192.168.88.1" Margin="0,0,0,16" />
 
@@ -20,8 +24,10 @@
         <TextBlock Text="Passwort" Margin="0,0,0,4" />
         <ui:PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
 
-        <CheckBox Content="Verschlüsselte Verbindung verwenden (nur wenn auf dem Gerät eingerichtet)"
-                  IsChecked="{Binding UseEncryption}" Margin="0,0,0,20" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+            <CheckBox Content="Verschlüsselte Verbindung verwenden" IsChecked="{Binding UseEncryption}" />
+            <controls:InfoHint Text="Verschlüsselt die Verbindung zu deinem Router. Nur aktivieren, wenn du das auf dem Gerät bereits eingerichtet hast – sonst schlägt die Verbindung fehl. Im Zweifel einfach ausgeschaltet lassen." />
+        </StackPanel>
 
         <ui:Button Content="Verbindung testen" Appearance="Secondary" HorizontalAlignment="Left"
                    Command="{Binding TestConnectionCommand}" />

@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:MikrotikInstaller.App.Views.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -9,7 +10,10 @@
         <StackPanel Margin="0,16,0,0">
             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
 
-            <TextBlock Text="Anschlüsse in deinem Heimnetzwerk" Margin="0,0,0,4" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <TextBlock Text="Anschlüsse in deinem Heimnetzwerk" />
+                <controls:InfoHint Text="Wähle die Anschlüsse, an die deine Geräte zu Hause (PC, Konsole, Drucker, ...) angeschlossen werden." />
+            </StackPanel>
             <ItemsControl ItemsSource="{Binding AvailableInterfaces}" Margin="0,0,0,20">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -18,21 +22,30 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <TextBlock Text="Name des Heimnetzwerks (intern)" Margin="0,0,0,4" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <TextBlock Text="Name des Heimnetzwerks (intern)" />
+                <controls:InfoHint Text="Ein interner Name für dein Heimnetzwerk auf dem Router. Wird nirgends angezeigt – du kannst den Vorschlag einfach übernehmen." />
+            </StackPanel>
             <ui:TextBox Text="{Binding BridgeName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="200" />
 
             <Grid Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="12" />
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="90" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Router-Adresse in deinem Netzwerk" Margin="0,0,0,4" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Text="Router-Adresse in deinem Netzwerk" />
+                        <controls:InfoHint Text="Die Adresse, unter der dein Router selbst in deinem Heimnetz erreichbar ist – das Gateway für alle deine Geräte." />
+                    </StackPanel>
                     <ui:TextBox Text="{Binding RouterAddress, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
-                    <TextBlock Text="Präfix" Margin="0,0,0,4" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Text="Präfix" />
+                        <controls:InfoHint Text="Gibt an, wie groß dein Heimnetzwerk ist. 24 erlaubt bis zu 254 Geräte – für die meisten Haushalte passend." />
+                    </StackPanel>
                     <ui:TextBox Text="{Binding PrefixLength, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
@@ -44,7 +57,10 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Adressbereich von" Margin="0,0,0,4" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Text="Adressbereich von" />
+                        <controls:InfoHint Text="Der Bereich, aus dem deine Geräte automatisch eine Adresse zugewiesen bekommen." />
+                    </StackPanel>
                     <ui:TextBox Text="{Binding DhcpPoolStart, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
@@ -60,7 +76,10 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="DNS-Server (bevorzugt)" Margin="0,0,0,4" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBlock Text="DNS-Server (bevorzugt)" />
+                        <controls:InfoHint Text="Übersetzt Internetadressen wie 'google.de' in die dahinterliegende Nummer. Die Vorgabe passt für die meisten – du musst hier nichts ändern." />
+                    </StackPanel>
                     <ui:TextBox Text="{Binding PrimaryDns, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">

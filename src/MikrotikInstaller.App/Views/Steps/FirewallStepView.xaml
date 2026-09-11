@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:MikrotikInstaller.App.Views.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -9,7 +10,10 @@
         <StackPanel Margin="0,16,0,0">
             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
 
-            <TextBlock Text="Portfreigaben (optional)" FontWeight="SemiBold" Margin="0,0,0,8" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <TextBlock Text="Portfreigaben (optional)" FontWeight="SemiBold" />
+                <controls:InfoHint Text="Macht ein bestimmtes Gerät in deinem Heimnetz gezielt aus dem Internet erreichbar, z. B. für einen Spiele- oder NAS-Server. Nur einrichten, wenn du weißt, dass du das brauchst." />
+            </StackPanel>
 
             <ItemsControl ItemsSource="{Binding PortForwards}">
                 <ItemsControl.ItemTemplate>
@@ -20,7 +24,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="12" />
-                                        <ColumnDefinition Width="90" />
+                                        <ColumnDefinition Width="110" />
                                         <ColumnDefinition Width="12" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -29,7 +33,10 @@
                                         <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="2">
-                                        <TextBlock Text="Protokoll" Margin="0,0,0,4" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="Protokoll" />
+                                            <controls:InfoHint Text="Die Art der Verbindung, die dein Programm benötigt – steht meist in dessen Anleitung. Im Zweifel TCP probieren." />
+                                        </StackPanel>
                                         <ComboBox ItemsSource="{Binding DataContext.Protocols, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                   SelectedItem="{Binding Protocol}" />
                                     </StackPanel>
@@ -40,22 +47,31 @@
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="130" />
                                         <ColumnDefinition Width="12" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="12" />
-                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="130" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0">
-                                        <TextBlock Text="Port von außen" Margin="0,0,0,4" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="Port von außen" />
+                                            <controls:InfoHint Text="Die Nummer, über die dein Dienst aus dem Internet erreichbar sein soll, z. B. 25565 für einen bestimmten Spieleserver." />
+                                        </StackPanel>
                                         <ui:TextBox Text="{Binding ExternalPort, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="2">
-                                        <TextBlock Text="Ziel-Gerät (IP-Adresse)" Margin="0,0,0,4" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="Ziel-Gerät (IP-Adresse)" />
+                                            <controls:InfoHint Text="Die feste Adresse des Geräts in deinem Heimnetz, das erreichbar sein soll." />
+                                        </StackPanel>
                                         <ui:TextBox Text="{Binding TargetAddress, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="4">
-                                        <TextBlock Text="Port am Gerät" Margin="0,0,0,4" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="Port am Gerät" />
+                                            <controls:InfoHint Text="Die Portnummer, auf der der Dienst am Zielgerät selbst lauscht – meist identisch mit dem Port von außen." />
+                                        </StackPanel>
                                         <ui:TextBox Text="{Binding InternalPort, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                 </Grid>
