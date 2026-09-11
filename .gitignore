@@ -1,0 +1,17 @@
+## .NET / Visual Studio / Rider
+bin/
+obj/
+*.user
+.vs/
+.idea/
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Build-Ausgaben
+publish/
+*.pdb
+
+## Sonstiges
+*.log
+.DS_Store

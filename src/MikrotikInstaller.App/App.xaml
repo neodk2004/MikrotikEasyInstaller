@@ -1,0 +1,24 @@
+﻿<Application x:Class="MikrotikInstaller.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MikrotikInstaller.App"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:steps="clr-namespace:MikrotikInstaller.App.ViewModels.Steps"
+             xmlns:stepViews="clr-namespace:MikrotikInstaller.App.Views.Steps"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Light" />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type steps:ConnectionStepViewModel}">
+                <stepViews:ConnectionStepView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type steps:PlaceholderStepViewModel}">
+                <stepViews:PlaceholderStepView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
