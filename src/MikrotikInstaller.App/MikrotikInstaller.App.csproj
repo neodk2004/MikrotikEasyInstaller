@@ -4,6 +4,12 @@
     <ProjectReference Include="..\MikrotikInstaller.Core\MikrotikInstaller.Core.csproj" />
   </ItemGroup>
 
+  <!-- Als Resource statt Content/CopyToOutput, damit die Datei beim Single-File-Publish mit in
+       die exe eingebettet wird und über pack://application:,,,/Assets/app.ico ansprechbar bleibt. -->
+  <ItemGroup>
+    <Resource Include="Assets\app.ico" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="WPF-UI" Version="4.3.0" />
@@ -25,6 +31,8 @@
     <Description>Interview-Assistent für die Grundeinrichtung von MikroTik-Geräten.</Description>
     <Version>1.0.0</Version>
     <NeutralLanguage>de-DE</NeutralLanguage>
+    <!-- Wird in die exe kompiliert: Datei-Icon in Explorer/Taskleiste/Alt-Tab. -->
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
     <!-- Nur diese Sprachpakete der .NET-Laufzeit/Abhängigkeiten mitliefern (übersetzte
          Systemmeldungen, nicht unsere eigenen UI-Texte) — spart etliche MB an Sprachen,
          die die App ohnehin nie anzeigt. -->
