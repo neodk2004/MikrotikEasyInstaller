@@ -1,4 +1,5 @@
 using MikrotikInstaller.Core.Connectivity.Binary;
+using MikrotikInstaller.Core.Connectivity.Demo;
 using MikrotikInstaller.Core.Connectivity.Rest;
 
 namespace MikrotikInstaller.Core.Connectivity;
@@ -12,6 +13,16 @@ public static class RouterOsClientFactory
 {
     public static async Task<IRouterOsClient> ConnectAsync(RouterOsCredentials credentials, CancellationToken cancellationToken = default)
     {
+#if DEBUG
+        // Nur in Debug-Builds: interner Testzugang ohne echtes Gerät, siehe DemoRouterOsClient.
+        // Bewusst per Compile-Flag ausgeschlossen, damit dieser Zugang nicht in der für
+        // Endnutzer veröffentlichten Version landet.
+        if (DemoRouterOsClient.Matches(credentials))
+        {
+            return new DemoRouterOsClient();
+        }
+#endif
+
         try
         {
             return await RestRouterOsClient.ConnectAsync(credentials, cancellationToken);
