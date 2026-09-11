@@ -17,6 +17,6 @@
         <ui:TextBox Text="{Binding Ssid, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="300" />
 
         <TextBlock Text="WLAN-Passwort (mindestens 8 Zeichen)" Margin="0,0,0,4" />
-        <ui:PasswordBox Password="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="300" />
+        <ui:PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="300" />
     </StackPanel>
 </UserControl>

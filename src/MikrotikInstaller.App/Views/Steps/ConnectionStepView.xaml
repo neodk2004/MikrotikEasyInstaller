@@ -18,7 +18,7 @@
                     PlaceholderText="admin" Margin="0,0,0,16" />
 
         <TextBlock Text="Passwort" Margin="0,0,0,4" />
-        <ui:PasswordBox Password="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
+        <ui:PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" />
 
         <CheckBox Content="Verschlüsselte Verbindung verwenden (nur wenn auf dem Gerät eingerichtet)"
                   IsChecked="{Binding UseEncryption}" Margin="0,0,0,20" />
