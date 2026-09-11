@@ -29,10 +29,10 @@
         <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap" Margin="0,16,0,0">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="Green" />
+                    <Setter Property="Foreground" Value="{StaticResource MikrotikAccentBrush}" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding StatusIsError}" Value="True">
-                            <Setter Property="Foreground" Value="Red" />
+                            <Setter Property="Foreground" Value="{StaticResource MikrotikRedBrush}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

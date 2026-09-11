@@ -6,12 +6,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignWidth="600">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,16,0,0">
             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
 
             <StackPanel Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,0,20">
-                <TextBlock Text="Fertig! Dein Gerät wurde erfolgreich eingerichtet." FontWeight="SemiBold" Foreground="Green" Margin="0,0,0,8" />
+                <TextBlock Text="Fertig! Dein Gerät wurde erfolgreich eingerichtet." FontWeight="SemiBold" Foreground="{StaticResource MikrotikAccentBrush}" Margin="0,0,0,8" />
                 <TextBlock TextWrapping="Wrap">
                     <Run Text="Ein Backup deines vorherigen Zustands liegt auf dem Gerät unter dem Namen „" />
                     <Run Text="{Binding BackupName}" FontWeight="SemiBold" />
@@ -40,8 +39,7 @@
                 <TextBlock Text="{Binding ProgressText}" VerticalAlignment="Center" TextWrapping="Wrap" />
             </StackPanel>
 
-            <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="Red" Margin="0,16,0,0"
+            <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{StaticResource MikrotikRedBrush}" Margin="0,16,0,0"
                        Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
         </StackPanel>
-    </ScrollViewer>
 </UserControl>

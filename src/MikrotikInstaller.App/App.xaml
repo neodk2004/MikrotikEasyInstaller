@@ -18,6 +18,11 @@
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
+            <!-- MikroTik-Markenfarbe (aus mikrotik.com), theme-unabhängig konstant. -->
+            <SolidColorBrush x:Key="MikrotikAccentBrush" Color="#009245" />
+            <SolidColorBrush x:Key="MikrotikAccentSoftBrush" Color="#1A009245" />
+            <SolidColorBrush x:Key="MikrotikRedBrush" Color="#E00000" />
+
             <DataTemplate DataType="{x:Type steps:ConnectionStepViewModel}">
                 <stepViews:ConnectionStepView />
             </DataTemplate>

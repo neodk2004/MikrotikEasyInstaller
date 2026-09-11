@@ -41,6 +41,7 @@ public partial class MainViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(ProgressText))]
     [NotifyPropertyChangedFor(nameof(IsFirstStep))]
     [NotifyPropertyChangedFor(nameof(IsLastStep))]
+    [NotifyPropertyChangedFor(nameof(StepNavItems))]
     [NotifyCanExecuteChangedFor(nameof(GoBackCommand))]
     [NotifyCanExecuteChangedFor(nameof(GoNextCommand))]
     private int _currentStepIndex;
@@ -48,6 +49,10 @@ public partial class MainViewModel : ObservableObject
     public WizardStepViewModelBase CurrentStep => Steps[CurrentStepIndex];
 
     public string ProgressText => $"Schritt {CurrentStepIndex + 1} von {Steps.Count}";
+
+    public IReadOnlyList<StepNavItem> StepNavItems => Steps
+        .Select((step, index) => new StepNavItem(index + 1, step.Title, index == CurrentStepIndex, index < CurrentStepIndex))
+        .ToList();
 
     public bool IsFirstStep => CurrentStepIndex == 0;
 

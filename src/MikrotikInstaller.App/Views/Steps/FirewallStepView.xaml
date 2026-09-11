@@ -6,7 +6,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignWidth="600">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,16,0,0">
             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
 
@@ -15,7 +14,7 @@
             <ItemsControl ItemsSource="{Binding PortForwards}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
+                        <Border BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
                             <StackPanel>
                                 <Grid Margin="0,0,0,8">
                                     <Grid.ColumnDefinitions>
@@ -69,5 +68,4 @@
             <ui:Button Content="+ Portfreigabe hinzufügen" Appearance="Secondary" HorizontalAlignment="Left"
                        Command="{Binding AddPortForwardCommand}" />
         </StackPanel>
-    </ScrollViewer>
 </UserControl>
