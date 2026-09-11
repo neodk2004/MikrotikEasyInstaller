@@ -18,6 +18,16 @@ public sealed class BoolToVisibilityConverter : IValueConverter
         throw new NotSupportedException();
 }
 
+/// <summary>Kehrt einen bool-Wert um, z. B. um ein Panel zu deaktivieren, solange eine Checkbox aktiv ist.</summary>
+public sealed class InverseBooleanConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        value is true ? false : true;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        Convert(value, targetType, parameter, culture);
+}
+
 /// <summary>Sichtbar, wenn der gebundene String nicht leer ist.</summary>
 public sealed class StringToVisibilityConverter : IValueConverter
 {

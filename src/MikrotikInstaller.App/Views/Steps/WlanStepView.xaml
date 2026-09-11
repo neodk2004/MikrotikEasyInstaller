@@ -8,22 +8,30 @@
              mc:Ignorable="d"
              d:DesignWidth="600">
     <StackPanel Margin="0,16,0,0">
-        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,24" Opacity="0.8" />
+        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,0,0,20" Opacity="0.8" />
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-            <TextBlock Text="WLAN-Schnittstelle" />
-            <controls:InfoHint Text="Der WLAN-Funkteil deines Routers, über den sich Geräte drahtlos verbinden." />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+            <CheckBox Content="Kein WLAN einrichten (z. B. bei einem reinen Switch oder Router ohne Funk)"
+                      IsChecked="{Binding SkipWireless}" />
+            <controls:InfoHint Text="Dein Gerät hat zwar eine WLAN-Schnittstelle, sie bleibt aber unangetastet und wird nicht eingerichtet, wenn du hier ein Häkchen setzt." />
         </StackPanel>
-        <ComboBox ItemsSource="{Binding AvailableInterfaces}" SelectedItem="{Binding SelectedInterface}"
-                  Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="220" />
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-            <TextBlock Text="WLAN-Name (SSID)" />
-            <controls:InfoHint Text="Der Name, den andere Geräte in der Liste verfügbarer WLAN-Netzwerke sehen und auswählen." />
+        <StackPanel IsEnabled="{Binding SkipWireless, Converter={StaticResource InverseBooleanConverter}}">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <TextBlock Text="WLAN-Schnittstelle" />
+                <controls:InfoHint Text="Der WLAN-Funkteil deines Routers, über den sich Geräte drahtlos verbinden." />
+            </StackPanel>
+            <ComboBox ItemsSource="{Binding AvailableInterfaces}" SelectedItem="{Binding SelectedInterface}"
+                      Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="220" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <TextBlock Text="WLAN-Name (SSID)" />
+                <controls:InfoHint Text="Der Name, den andere Geräte in der Liste verfügbarer WLAN-Netzwerke sehen und auswählen." />
+            </StackPanel>
+            <ui:TextBox Text="{Binding Ssid, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="300" />
+
+            <TextBlock Text="WLAN-Passwort (mindestens 8 Zeichen)" Margin="0,0,0,4" />
+            <ui:PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="300" />
         </StackPanel>
-        <ui:TextBox Text="{Binding Ssid, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="300" />
-
-        <TextBlock Text="WLAN-Passwort (mindestens 8 Zeichen)" Margin="0,0,0,4" />
-        <ui:PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,16" HorizontalAlignment="Left" MinWidth="300" />
     </StackPanel>
 </UserControl>

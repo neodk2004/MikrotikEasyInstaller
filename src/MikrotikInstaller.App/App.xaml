@@ -17,6 +17,7 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
             <!-- MikroTik-Markenfarbe (aus mikrotik.com), theme-unabhängig konstant. -->
             <SolidColorBrush x:Key="MikrotikAccentBrush" Color="#009245" />

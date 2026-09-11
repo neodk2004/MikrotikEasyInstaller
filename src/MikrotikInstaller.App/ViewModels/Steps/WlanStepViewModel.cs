@@ -6,8 +6,9 @@ using MikrotikInstaller.Core.Devices;
 namespace MikrotikInstaller.App.ViewModels.Steps;
 
 /// <summary>
-/// Sechster Schritt: WLAN-Name (SSID) und Passwort. Wird komplett übersprungen, wenn das Gerät
-/// keine WLAN-Schnittstelle hat.
+/// Sechster Schritt: WLAN-Name (SSID) und Passwort. Wird komplett übersprungen, wenn das Gerät gar
+/// keine WLAN-Schnittstelle hat. Hat das Gerät zwar WLAN-Hardware, aber deaktiviert (z. B. weil es
+/// hier rein als Switch dient), kann der Nutzer den Schritt trotzdem bewusst überspringen.
 /// </summary>
 public partial class WlanStepViewModel : WizardStepViewModelBase
 {
@@ -32,12 +33,14 @@ public partial class WlanStepViewModel : WizardStepViewModelBase
     [ObservableProperty]
     private string _password = string.Empty;
 
+    [ObservableProperty]
+    private bool _skipWireless;
+
     public override bool ShouldSkip => _session.Device?.HasWireless != true;
 
     public override bool CanGoNext =>
-        !string.IsNullOrWhiteSpace(SelectedInterface)
-        && !string.IsNullOrWhiteSpace(Ssid)
-        && Password.Length >= 8;
+        SkipWireless
+        || (!string.IsNullOrWhiteSpace(SelectedInterface) && !string.IsNullOrWhiteSpace(Ssid) && Password.Length >= 8);
 
     public override Task OnActivatedAsync()
     {
@@ -58,11 +61,13 @@ public partial class WlanStepViewModel : WizardStepViewModelBase
 
     partial void OnPasswordChanged(string value) => SaveToSession();
 
+    partial void OnSkipWirelessChanged(bool value) => SaveToSession();
+
     private void SaveToSession()
     {
         OnPropertyChanged(nameof(CanGoNext));
 
-        if (!CanGoNext)
+        if (SkipWireless || !CanGoNext)
         {
             _session.WirelessActions = null;
             _session.WirelessSettings = null;
