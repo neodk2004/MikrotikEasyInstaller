@@ -15,12 +15,21 @@ public sealed class WizardSession
 
     public RouterDevice? Device { get; set; }
 
-    /// <summary>Vom WAN-Schritt gewählte Internet-Schnittstelle, damit der LAN-Schritt sie ausschließen kann.</summary>
+    /// <summary>Vom WAN-Schritt gewählte Internet-Schnittstelle, damit spätere Schritte sie referenzieren können.</summary>
     public string? WanInterfaceName { get; set; }
+
+    /// <summary>Vom LAN-Schritt gewählter Bridge-Name, damit VLAN- und Firewall-Schritt ihn referenzieren können.</summary>
+    public string? LanBridgeName { get; set; }
 
     public IReadOnlyList<ConfigurationAction>? WanActions { get; set; }
 
     public IReadOnlyList<ConfigurationAction>? LanActions { get; set; }
+
+    public IReadOnlyList<ConfigurationAction>? VlanActions { get; set; }
+
+    public IReadOnlyList<ConfigurationAction>? WirelessActions { get; set; }
+
+    public IReadOnlyList<ConfigurationAction>? FirewallActions { get; set; }
 
     public async Task DisposeClientAsync()
     {

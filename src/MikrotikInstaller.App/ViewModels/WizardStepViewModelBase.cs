@@ -29,4 +29,10 @@ public abstract partial class WizardStepViewModelBase : ObservableObject
     /// überschreiben das hier.
     /// </summary>
     public virtual Task OnActivatedAsync() => Task.CompletedTask;
+
+    /// <summary>
+    /// Ob dieser Schritt bei der Navigation übersprungen werden soll (z. B. der WLAN-Schritt,
+    /// wenn das Gerät keine WLAN-Schnittstelle hat).
+    /// </summary>
+    public virtual bool ShouldSkip => false;
 }

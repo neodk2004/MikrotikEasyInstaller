@@ -20,9 +20,9 @@ public partial class MainViewModel : ObservableObject
             new DeviceOverviewStepViewModel(_session),
             new WanStepViewModel(_session),
             new LanStepViewModel(_session),
-            new PlaceholderStepViewModel("VLANs", "Netzwerke logisch voneinander trennen."),
-            new PlaceholderStepViewModel("WLAN", "WLAN-Name und Passwort festlegen."),
-            new PlaceholderStepViewModel("Firewall", "Sichere Basis-Firewallregeln auswählen."),
+            new VlanStepViewModel(_session),
+            new WlanStepViewModel(_session),
+            new FirewallStepViewModel(_session),
             new PlaceholderStepViewModel("Zusammenfassung", "Alle geplanten Änderungen im Überblick, bevor etwas angewendet wird."),
         ];
 
@@ -56,7 +56,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanGoBack))]
     private async Task GoBackAsync()
     {
-        CurrentStepIndex--;
+        do
+        {
+            CurrentStepIndex--;
+        }
+        while (CurrentStepIndex > 0 && CurrentStep.ShouldSkip);
+
         await CurrentStep.OnActivatedAsync();
     }
 
@@ -65,7 +70,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanGoNext))]
     private async Task GoNextAsync()
     {
-        CurrentStepIndex++;
+        do
+        {
+            CurrentStepIndex++;
+        }
+        while (CurrentStepIndex < Steps.Count - 1 && CurrentStep.ShouldSkip);
+
         await CurrentStep.OnActivatedAsync();
     }
 

@@ -90,8 +90,11 @@ public partial class LanStepViewModel : WizardStepViewModelBase
         if (!CanGoNext)
         {
             _session.LanActions = null;
+            _session.LanBridgeName = null;
             return;
         }
+
+        _session.LanBridgeName = BridgeName;
 
         var settings = new LanSettings(
             BridgeName,
