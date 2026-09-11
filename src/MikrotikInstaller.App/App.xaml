@@ -24,6 +24,12 @@
             <DataTemplate DataType="{x:Type steps:DeviceOverviewStepViewModel}">
                 <stepViews:DeviceOverviewStepView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type steps:WanStepViewModel}">
+                <stepViews:WanStepView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type steps:LanStepViewModel}">
+                <stepViews:LanStepView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type steps:PlaceholderStepViewModel}">
                 <stepViews:PlaceholderStepView />
             </DataTemplate>

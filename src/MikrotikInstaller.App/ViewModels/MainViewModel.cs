@@ -18,8 +18,8 @@ public partial class MainViewModel : ObservableObject
         [
             new ConnectionStepViewModel(_session),
             new DeviceOverviewStepViewModel(_session),
-            new PlaceholderStepViewModel("Internet-Zugang", "WAN-Schnittstelle und Internetverbindung einrichten."),
-            new PlaceholderStepViewModel("Heimnetzwerk (DHCP)", "IP-Adressbereich und DHCP-Server für dein Netzwerk festlegen."),
+            new WanStepViewModel(_session),
+            new LanStepViewModel(_session),
             new PlaceholderStepViewModel("VLANs", "Netzwerke logisch voneinander trennen."),
             new PlaceholderStepViewModel("WLAN", "WLAN-Name und Passwort festlegen."),
             new PlaceholderStepViewModel("Firewall", "Sichere Basis-Firewallregeln auswählen."),
