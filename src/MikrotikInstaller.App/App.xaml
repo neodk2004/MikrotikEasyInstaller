@@ -5,6 +5,7 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:steps="clr-namespace:MikrotikInstaller.App.ViewModels.Steps"
              xmlns:stepViews="clr-namespace:MikrotikInstaller.App.Views.Steps"
+             xmlns:converters="clr-namespace:MikrotikInstaller.App.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -13,8 +14,15 @@
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
 
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+
             <DataTemplate DataType="{x:Type steps:ConnectionStepViewModel}">
                 <stepViews:ConnectionStepView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type steps:DeviceOverviewStepViewModel}">
+                <stepViews:DeviceOverviewStepView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type steps:PlaceholderStepViewModel}">
                 <stepViews:PlaceholderStepView />

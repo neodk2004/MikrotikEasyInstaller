@@ -10,12 +10,14 @@ namespace MikrotikInstaller.App.ViewModels;
 /// </summary>
 public partial class MainViewModel : ObservableObject
 {
+    private readonly WizardSession _session = new();
+
     public MainViewModel()
     {
         Steps =
         [
-            new ConnectionStepViewModel(),
-            new PlaceholderStepViewModel("Geräte-Erkennung", "Modell, RouterOS-Version und Schnittstellen werden ausgelesen."),
+            new ConnectionStepViewModel(_session),
+            new DeviceOverviewStepViewModel(_session),
             new PlaceholderStepViewModel("Internet-Zugang", "WAN-Schnittstelle und Internetverbindung einrichten."),
             new PlaceholderStepViewModel("Heimnetzwerk (DHCP)", "IP-Adressbereich und DHCP-Server für dein Netzwerk festlegen."),
             new PlaceholderStepViewModel("VLANs", "Netzwerke logisch voneinander trennen."),
@@ -52,12 +54,23 @@ public partial class MainViewModel : ObservableObject
     public bool IsLastStep => CurrentStepIndex == Steps.Count - 1;
 
     [RelayCommand(CanExecute = nameof(CanGoBack))]
-    private void GoBack() => CurrentStepIndex--;
+    private async Task GoBackAsync()
+    {
+        CurrentStepIndex--;
+        await CurrentStep.OnActivatedAsync();
+    }
 
     private bool CanGoBack() => !IsFirstStep;
 
     [RelayCommand(CanExecute = nameof(CanGoNext))]
-    private void GoNext() => CurrentStepIndex++;
+    private async Task GoNextAsync()
+    {
+        CurrentStepIndex++;
+        await CurrentStep.OnActivatedAsync();
+    }
 
     private bool CanGoNext() => !IsLastStep && CurrentStep.CanGoNext;
+
+    /// <summary>Wird beim Schließen des Hauptfensters aufgerufen, um die Geräteverbindung sauber zu beenden.</summary>
+    public Task DisposeSessionAsync() => _session.DisposeClientAsync();
 }

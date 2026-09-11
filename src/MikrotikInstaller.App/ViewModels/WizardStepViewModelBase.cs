@@ -22,4 +22,11 @@ public abstract partial class WizardStepViewModelBase : ObservableObject
     /// Wird von abgeleiteten Schritten überschrieben, sobald echte Validierung existiert.
     /// </summary>
     public virtual bool CanGoNext => true;
+
+    /// <summary>
+    /// Wird aufgerufen, sobald dieser Schritt im Assistenten zum aktuellen Schritt wird.
+    /// Schritte, die beim Betreten automatisch Daten laden müssen (z. B. Geräte-Erkennung),
+    /// überschreiben das hier.
+    /// </summary>
+    public virtual Task OnActivatedAsync() => Task.CompletedTask;
 }

@@ -10,11 +10,14 @@ namespace MikrotikInstaller.App.ViewModels.Steps;
 /// </summary>
 public partial class ConnectionStepViewModel : WizardStepViewModelBase
 {
-    public ConnectionStepViewModel()
+    private readonly WizardSession _session;
+
+    public ConnectionStepViewModel(WizardSession session)
         : base(
             title: "Verbindung",
             description: "Gib die Adresse deines MikroTik-Geräts sowie Benutzername und Passwort ein.")
     {
+        _session = session;
     }
 
     [ObservableProperty]
@@ -54,6 +57,9 @@ public partial class ConnectionStepViewModel : WizardStepViewModelBase
         StatusIsError = false;
         IsConnected = false;
 
+        await _session.DisposeClientAsync();
+        _session.Device = null;
+
         try
         {
             var credentials = new RouterOsCredentials(Host.Trim(), Username.Trim(), Password)
@@ -61,7 +67,7 @@ public partial class ConnectionStepViewModel : WizardStepViewModelBase
                 UseEncryption = UseEncryption,
             };
 
-            await using var client = await RouterOsClientFactory.ConnectAsync(credentials);
+            _session.Client = await RouterOsClientFactory.ConnectAsync(credentials);
 
             IsConnected = true;
             StatusIsError = false;
