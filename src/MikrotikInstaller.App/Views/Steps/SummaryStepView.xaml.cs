@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace MikrotikInstaller.App.Views.Steps;
 
-public partial class PlaceholderStepView : UserControl
+public partial class SummaryStepView : UserControl
 {
-    public PlaceholderStepView()
+    public SummaryStepView()
     {
         InitializeComponent();
     }

@@ -39,8 +39,8 @@
             <DataTemplate DataType="{x:Type steps:FirewallStepViewModel}">
                 <stepViews:FirewallStepView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type steps:PlaceholderStepViewModel}">
-                <stepViews:PlaceholderStepView />
+            <DataTemplate DataType="{x:Type steps:SummaryStepViewModel}">
+                <stepViews:SummaryStepView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

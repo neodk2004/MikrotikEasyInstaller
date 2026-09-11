@@ -4,10 +4,15 @@ using System.Windows.Data;
 
 namespace MikrotikInstaller.App.Converters;
 
+/// <summary>Sichtbar, wenn der gebundene Wert true ist. Mit ConverterParameter="Invert" umgekehrt.</summary>
 public sealed class BoolToVisibilityConverter : IValueConverter
 {
-    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) =>
-        value is true ? Visibility.Visible : Visibility.Collapsed;
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        var isTrue = value is true;
+        var invert = string.Equals(parameter as string, "Invert", StringComparison.OrdinalIgnoreCase);
+        return isTrue != invert ? Visibility.Visible : Visibility.Collapsed;
+    }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
         throw new NotSupportedException();

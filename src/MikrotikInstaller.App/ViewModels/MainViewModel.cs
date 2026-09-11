@@ -23,7 +23,7 @@ public partial class MainViewModel : ObservableObject
             new VlanStepViewModel(_session),
             new WlanStepViewModel(_session),
             new FirewallStepViewModel(_session),
-            new PlaceholderStepViewModel("Zusammenfassung", "Alle geplanten Änderungen im Überblick, bevor etwas angewendet wird."),
+            new SummaryStepViewModel(_session),
         ];
 
         foreach (var step in Steps)
