@@ -25,6 +25,10 @@
     <Description>Interview-Assistent für die Grundeinrichtung von MikroTik-Geräten.</Description>
     <Version>1.0.0</Version>
     <NeutralLanguage>de-DE</NeutralLanguage>
+    <!-- Nur diese Sprachpakete der .NET-Laufzeit/Abhängigkeiten mitliefern (übersetzte
+         Systemmeldungen, nicht unsere eigenen UI-Texte) — spart etliche MB an Sprachen,
+         die die App ohnehin nie anzeigt. -->
+    <SatelliteResourceLanguages>de;en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <!-- Standardwerte für "dotnet publish": eine einzelne, in sich geschlossene .exe ohne separate
