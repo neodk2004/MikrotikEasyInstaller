@@ -64,11 +64,20 @@ jobs:
           $url = $raw.Split('=', 2)[1]
           "url=$url" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
+      # Falls unter diesem Tag bereits ein Release existiert (z. B. weil der Tag für einen
+      # erneuten Testlauf verschoben wurde): entfernen, damit die Action unten sauber neu
+      # erstellt statt einen bestehenden Release-Text zu verändern (dabei würde unser
+      # VirusTotal-Link von "generate_release_notes" wieder überschrieben).
+      - name: Vorhandenes Release unter diesem Tag entfernen (falls vorhanden)
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete "${{ github.ref_name }}" --yes --cleanup-tag=false 2>$null; exit 0
+
       - name: GitHub-Release erstellen
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          append_body: true
           body: |
             🛡️ **VirusTotal-Scan dieser Datei:** ${{ steps.vt_link.outputs.url }}
           files: |
