@@ -43,19 +43,34 @@ jobs:
           "$hash  MikroTik-Installer.exe" | Out-File -FilePath "MikroTik-Installer.exe.sha256" -Encoding ascii -NoNewline
           Write-Host "SHA256: $hash"
 
-      - name: GitHub-Release erstellen
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
-          files: |
-            src/MikrotikInstaller.App/bin/Release/net8.0-windows/win-x64/publish/MikroTik-Installer.exe
-            MikroTik-Installer.exe.sha256
-
-      - name: Bei VirusTotal scannen und Ergebnis in die Release-Notizen eintragen
+      # update_release_body der Action funktioniert nur, wenn der Workflow selbst durch das
+      # "release: published"-Event ausgelöst wurde - hier läuft er aber bei einem Tag-Push und
+      # das Release entsteht erst im nächsten Schritt. Deshalb nur scannen und den Link selbst
+      # in den Release-Text einfügen (nächster Schritt), statt update_release_body zu nutzen.
+      - name: Bei VirusTotal scannen
+        id: virustotal
         uses: crazy-max/ghaction-virustotal@v4
         with:
           vt_api_key: ${{ secrets.VT_API_KEY }}
           files: |
             ./src/MikrotikInstaller.App/bin/Release/net8.0-windows/win-x64/publish/MikroTik-Installer.exe
-          update_release_body: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Scan-Link aus der Action-Ausgabe extrahieren
+        id: vt_link
+        shell: pwsh
+        run: |
+          # Ausgabeformat der Action: "<Dateipfad>=<Analyse-URL>"
+          $raw = "${{ steps.virustotal.outputs.analysis }}"
+          $url = $raw.Split('=', 2)[1]
+          "url=$url" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: GitHub-Release erstellen
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          append_body: true
+          body: |
+            🛡️ **VirusTotal-Scan dieser Datei:** ${{ steps.vt_link.outputs.url }}
+          files: |
+            src/MikrotikInstaller.App/bin/Release/net8.0-windows/win-x64/publish/MikroTik-Installer.exe
+            MikroTik-Installer.exe.sha256
