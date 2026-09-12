@@ -1,6 +1,10 @@
 # MikroTik Installer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Ein Windows-Programm, mit dem sich MikroTik-Router/-Switches in wenigen, klar geführten Schritten einrichten lassen – auch ohne Netzwerk-Vorkenntnisse. Statt WinBox-Menüs und RouterOS-Fachbegriffen gibt es ein Interview: Verbindung herstellen, ein paar verständliche Fragen beantworten, fertig.
+
+> **Hinweis:** Dies ist ein unabhängiges, privates Open-Source-Projekt ohne jede kommerzielle Absicht. Es steht in keiner Verbindung zu MikroTik und wird nicht von MikroTik unterstützt, gesponsert oder geprüft. Siehe [Markenrechte & Haftungsausschluss](#markenrechte--haftungsausschluss).
 
 ![Zusammenfassungs-Schritt des Assistenten](docs/screenshot.png)
 
@@ -25,6 +29,15 @@ Nichts wird am Gerät verändert, bevor der Nutzer in der Zusammenfassung ausdr�
 - Windows 10/11, keine Installation nötig
 - Einfach `MikroTik-Installer.exe` herunterladen und starten – eine einzelne, eigenständige Datei (~67 MB), kein separates .NET muss installiert werden
 - Portable: läuft von jedem Ordner/USB-Stick, schreibt nichts in Registry oder AppData
+
+### Ist die Datei vertrauenswürdig?
+
+Jede Version wird nicht lokal, sondern öffentlich nachvollziehbar per GitHub Actions direkt aus diesem Quellcode gebaut (siehe `.github/workflows/release.yml`) – niemand fügt der exe manuell etwas hinzu. Bei jedem [Release](../../releases) findest du zusätzlich:
+
+- eine **`.sha256`-Prüfsumme** neben der exe, mit der du die Integrität deines Downloads überprüfen kannst (`Get-FileHash MikroTik-Installer.exe -Algorithm SHA256` unter PowerShell)
+- einen **VirusTotal-Scan-Link** in den Release-Notizen, der die exakt gebaute Datei durch 70+ Antiviren-Engines prüft
+
+Die exe ist nicht mit einem kostenpflichtigen Code-Signing-Zertifikat signiert – Windows SmartScreen zeigt daher beim ersten Start ggf. „Unbekannter Herausgeber" an. Das ist bei kostenlosen Open-Source-Projekten ohne Firmenhintergrund normal und kein Hinweis auf Schadsoftware; über „Weitere Informationen" → „Trotzdem ausführen" lässt sich der Hinweis bestätigen.
 
 ## Für Entwickler
 
@@ -75,3 +88,16 @@ src/
 - [QRCoder](https://github.com/codebude/QRCoder) – WLAN-QR-Code
 
 Die MikroTik-Markenfarbe (`#009245`) wurde aus der offiziellen Website übernommen; das App-Icon ist ein eigenes, neutrales Netzwerk-Symbol (kein MikroTik-Logo).
+
+## Lizenz
+
+Dieses Projekt steht unter der [MIT-Lizenz](LICENSE). Der Quellcode darf frei verwendet, verändert und weiterverbreitet werden – auch in eigenen (auch kommerziellen) Projekten –, solange der Lizenz- und Copyright-Hinweis erhalten bleibt. Die Software wird ohne jede Gewährleistung bereitgestellt („as is").
+
+## Markenrechte & Haftungsausschluss
+
+- **Kein offizielles MikroTik-Produkt.** Dieses Projekt ist eine unabhängige, private Entwicklung und steht in keiner Verbindung zu MikroTikls SIA. Es wird nicht von MikroTik entwickelt, geprüft, unterstützt, gesponsert oder in irgendeiner Form autorisiert.
+- **Markenrechte bleiben unangetastet.** „MikroTik", „RouterOS", „WinBox" und alle weiteren genannten Produkt- und Markennamen sind Marken bzw. eingetragene Marken von MikroTikls SIA. Sie werden hier ausschließlich zur sachlichen Beschreibung der Kompatibilität verwendet (nominativer Gebrauch), nicht um eine Verbindung, Zusammenarbeit oder Billigung durch MikroTik zu suggerieren. Das App-Icon ist ein eigens erstelltes, neutrales Symbol – **kein** MikroTik-Logo.
+- **Nicht-kommerzielles Hobbyprojekt.** Der Autor verfolgt mit diesem Projekt keinerlei finanzielle Absicht. Es wird kostenlos und ohne Gewinnerzielungsabsicht als Open Source zur Verfügung gestellt, in der Hoffnung, dass es anderen Nutzern beim Einrichten ihrer Geräte hilft.
+- **Nutzung auf eigene Verantwortung.** Wer den Installer einsetzt, ändert Konfigurationen auf eigenen Netzwerkgeräten in eigener Verantwortung. Es wird keine Haftung für Schäden, Datenverlust oder Fehlkonfigurationen übernommen, die durch die Nutzung dieser Software entstehen (siehe auch Gewährleistungsausschluss in der [LICENSE](LICENSE)).
+
+Sollte MikroTikls SIA Einwände gegen Inhalte dieses Repositories haben, bitte über die Kontaktmöglichkeiten dieses GitHub-Profils melden – entsprechende Inhalte werden umgehend angepasst oder entfernt.
