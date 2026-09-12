@@ -1,7 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <!-- windows statt net8.0: die Tests rufen u. a. SummaryPdfExporter.Export auf, das als
+         [SupportedOSPlatform("windows")] markiert ist (PDFsharp/GDI+). Ohne windows-TFM kennt
+         der Plattform-Analyzer den Kontext nicht und meldet CA1416 an jeder Aufrufstelle,
+         obwohl die gesamte Lösung ohnehin ein Windows/WPF-Projekt ist. -->
+    <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
