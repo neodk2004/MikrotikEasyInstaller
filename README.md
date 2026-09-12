@@ -1,6 +1,7 @@
 # MikroTik Installer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Scanned by VirusTotal](https://img.shields.io/badge/Scanned%20by-VirusTotal-blue?logo=virustotal&logoColor=white)](../../releases)
 
 Ein Windows-Programm, mit dem sich MikroTik-Router/-Switches in wenigen, klar geführten Schritten einrichten lassen – auch ohne Netzwerk-Vorkenntnisse. Statt WinBox-Menüs und RouterOS-Fachbegriffen gibt es ein Interview: Verbindung herstellen, ein paar verständliche Fragen beantworten, fertig.
 
