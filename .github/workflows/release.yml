@@ -25,8 +25,12 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
+      # Debug-Konfiguration, nicht Release: der interne Demo-Verbindungszugang, den ein Teil
+      # der Tests nutzt, ist per #if DEBUG bewusst nur in Debug-Builds vorhanden (siehe
+      # RouterOsClientFactory.cs) und existiert in Release nicht — dort würde der Test einen
+      # echten (nie erfolgreichen) Verbindungsversuch auslösen und in einen Timeout laufen.
       - name: Tests ausführen
-        run: dotnet test src/MikrotikInstaller.Core.Tests/MikrotikInstaller.Core.Tests.csproj --configuration Release
+        run: dotnet test src/MikrotikInstaller.Core.Tests/MikrotikInstaller.Core.Tests.csproj --configuration Debug
 
       - name: Windows-exe veröffentlichen (self-contained, Single-File)
         run: dotnet publish src/MikrotikInstaller.App/MikrotikInstaller.App.csproj --configuration Release --runtime win-x64
